@@ -18,9 +18,14 @@ class GooglePageRank {
 public:
 
 	GooglePageRank(std::string file, int s);
+	GooglePageRank(const GooglePageRank& gpr);
 
 	~GooglePageRank() { delete[] matrix;  std::cout << std::endl << "Destoryed" << std::endl; }
 
+	void set_value(int row, int col, int val);
+	int get_value(int row, int col);
+
 	friend std::ostream& operator<<(std::ostream& out, const GooglePageRank& gpr);
+
 
 };

@@ -57,7 +57,35 @@ GooglePageRank::GooglePageRank(std::string file, int s) {
 
 }
 
+GooglePageRank::GooglePageRank(const GooglePageRank& gpr) {
 
+	matrix = new (nothrow) int[gpr.size]();
+	size = { gpr.size };
+	sizeSqrt = { gpr.sizeSqrt };
+
+	for (int i = 0; i < size; ++i) {
+
+		matrix[i] = gpr.matrix[i];
+
+	}
+}
+
+void GooglePageRank::set_value(int row, int col, int val) {
+
+	int plc = (sizeSqrt * row) + col;
+
+	matrix[plc] = val;
+
+
+}
+
+int GooglePageRank::get_value(int row, int col) {
+
+	int plc = (sizeSqrt * row) + col;
+
+	return (matrix[plc]);
+
+}
 
 
 std::ostream & operator<<(std::ostream & out, const GooglePageRank & gpr)

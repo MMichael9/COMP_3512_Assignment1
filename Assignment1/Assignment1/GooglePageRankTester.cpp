@@ -16,6 +16,8 @@ int main() {
 
 	cout << a << endl;
 
+	GooglePageRank b(a);
+
 
 	system("PAUSE");
 
