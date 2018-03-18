@@ -115,6 +115,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="GooglePageRank.cpp" />
+    <ClCompile Include="GooglePageRankTester.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="GooglePageRank.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
