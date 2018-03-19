@@ -13,7 +13,7 @@ class GooglePageRank {
 
 	int size;
 	int sizeSqrt;
-	int * matrix;
+	double * matrix;
 
 public:
 
@@ -22,8 +22,12 @@ public:
 
 	~GooglePageRank() { delete[] matrix;  std::cout << std::endl << "Destoryed" << std::endl; }
 
-	void set_value(int row, int col, int val);
+	void set_value(int row, int col, double val);
 	int get_value(int row, int col);
+
+	void changeCol(GooglePageRank gpr);
+
+	void testFunction(GooglePageRank& gpr, int colNum, double colSum);
 
 	friend std::ostream& operator<<(std::ostream& out, const GooglePageRank& gpr);
 

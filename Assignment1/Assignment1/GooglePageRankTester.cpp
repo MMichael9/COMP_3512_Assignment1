@@ -18,6 +18,9 @@ int main() {
 
 	GooglePageRank b(a);
 
+	b.changeCol(a);
+
+	cout << b << endl;
 
 	system("PAUSE");
 

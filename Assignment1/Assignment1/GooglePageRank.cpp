@@ -5,7 +5,7 @@ using namespace std;
 
 GooglePageRank::GooglePageRank(std::string file, int s) {
 
-	matrix = new int[s];
+	matrix = new double[s];
 	size = { s };
 	sizeSqrt = (sqrt(size));
 
@@ -13,7 +13,7 @@ GooglePageRank::GooglePageRank(std::string file, int s) {
 
 	for (int i = 0; i < size; ++i) {
 
-		int a;
+		double a;
 
 		iss >> a;
 
@@ -59,7 +59,7 @@ GooglePageRank::GooglePageRank(std::string file, int s) {
 
 GooglePageRank::GooglePageRank(const GooglePageRank& gpr) {
 
-	matrix = new (nothrow) int[gpr.size]();
+	matrix = new (nothrow) double[gpr.size]();
 	size = { gpr.size };
 	sizeSqrt = { gpr.sizeSqrt };
 
@@ -70,7 +70,7 @@ GooglePageRank::GooglePageRank(const GooglePageRank& gpr) {
 	}
 }
 
-void GooglePageRank::set_value(int row, int col, int val) {
+void GooglePageRank::set_value(int row, int col, double val) {
 
 	int plc = (sizeSqrt * row) + col;
 
@@ -84,6 +84,55 @@ int GooglePageRank::get_value(int row, int col) {
 	int plc = (sizeSqrt * row) + col;
 
 	return (matrix[plc]);
+
+}
+
+void GooglePageRank::changeCol(GooglePageRank gpr) {
+
+	for (int i = 0; i < sizeSqrt; ++i) {
+
+		int colSum = 0;
+
+		for (int j = 0; j < sizeSqrt; ++j) {
+
+			int val = matrix[i + (sizeSqrt * j)];
+			colSum += val;
+			cout << val << " ";
+
+		}
+		cout << "Col Sum = " << colSum << endl << endl;
+
+		testFunction(*this, i, colSum);
+
+	}
+
+
+	for (int i = 0; i < this->sizeSqrt; ++i) {
+		for (int j = 0; j < this->sizeSqrt; ++j) {
+			cout << this->matrix[i * this->sizeSqrt + j] << "  ";
+		}
+		cout << "\n";
+	}
+}
+
+void GooglePageRank::testFunction(GooglePageRank& gpr, int colNum, double colSum) {
+
+	if (colSum == 0) {
+
+		for (int j = 0; j < sizeSqrt; ++j) {
+			gpr.matrix[colNum + (sizeSqrt * j)] = 1 / (double) gpr.sizeSqrt;
+		}
+
+	}
+
+	for (int j = 0; j < sizeSqrt; ++j) {
+
+		int val = gpr.matrix[colNum + (sizeSqrt * j)];
+
+		if (val == 1) {
+			gpr.matrix[colNum + (sizeSqrt * j)] = (gpr.matrix[colNum + (sizeSqrt * j)] / colSum);
+		}
+	}
 
 }
 
