@@ -57,6 +57,18 @@ GooglePageRank::GooglePageRank(std::string file, int s) {
 
 }
 
+GooglePageRank::GooglePageRank(int s) {
+
+	sizeSqrt = { s };
+	size = { s * s };
+	matrix = new (nothrow) double[size]();
+
+	for (int i = 0; i < size; ++i) {
+		matrix[i] = 1 / (double) sizeSqrt;
+	}
+
+}
+
 
 GooglePageRank::GooglePageRank(const GooglePageRank& gpr) {
 
@@ -80,12 +92,28 @@ void GooglePageRank::set_value(int row, int col, double val) {
 
 }
 
-int GooglePageRank::get_value(int row, int col) {
+void GooglePageRank::set_value(int index, double val) {
+
+	matrix[index] = val;
+
+}
+
+
+
+double GooglePageRank::get_value(int row, int col) {
 
 	int plc = (sizeSqrt * row) + col;
 
 	return (matrix[plc]);
 
+}
+
+double GooglePageRank::get_value(int index) {
+	return (matrix[index]);
+}
+
+int GooglePageRank::getSize() {
+	return size;
 }
 
 void GooglePageRank::changeCol(GooglePageRank gpr) {
@@ -144,12 +172,99 @@ void GooglePageRank::randomWalkCalc() {
 
 }
 
+void GooglePageRank::addMatrix(GooglePageRank gpr) {
+
+	for (int i = 0; i < size; ++i) {
+
+		this->matrix[i] = this->matrix[i] + gpr.matrix[i];
+
+	}
+
+}
+
+double * GooglePageRank::markovProcess() {
+
+	double * rank = new double[this->sizeSqrt];
+
+	return rank;
+
+}
+
+void GooglePageRank::markovProcess(double * rank) {
+
+	for (int i = 0; i < this->sizeSqrt; ++i) {
+		cout << rank[i] << " ";
+	}
+
+	cout << endl;
+
+	for (int i = 0; i < this->sizeSqrt; ++i) {
+		for (int j = 0; j < this->sizeSqrt; ++j) {
+			cout << setw(5) << this->matrix[i * this->sizeSqrt + j] << "  ";
+		}
+		cout << "\n";
+	}
+
+
+
+	double * result = new double[this->sizeSqrt];
+
+	int rA = sizeSqrt;
+	int cA = sizeSqrt;
+
+	int rB = sizeSqrt;
+	int cB = 1;
+
+	int cC = 1;
+
+	int count = 0;
+
+	while (count < 4) {
+
+		for (int i = 0; i < rA; i++) {
+			for (int j = 0; j < cB; j++) {
+				double sum = 0.0;
+				for (int k = 0; k < rB; k++)
+					sum = sum + this->matrix[i * cA + k] * rank[k * cB + j];
+				result[i * cC + j] = sum;
+			}
+
+		}
+
+		for (int i = 0; i < rA; i++) {
+			for (int j = 0; j < cB; j++) {
+				double sum = 0.0;
+				for (int k = 0; k < rB; k++)
+					sum = sum + this->matrix[i * cA + k] * result[k * cB + j];
+				result[i * cC + j] = sum;
+			}
+
+		}
+
+
+
+		cout << endl << endl;
+
+		for (int i = 0; i < this->sizeSqrt; ++i) {
+			cout << result[i] << " ";
+		}
+
+		cout << endl;
+
+		count++;
+	}
+
+
+	cout << endl;
+	
+}
+
 
 std::ostream & operator<<(std::ostream & out, const GooglePageRank & gpr)
 {
 	for (int i = 0; i < gpr.sizeSqrt; ++i) {
 		for (int j = 0; j < gpr.sizeSqrt; ++j) {
-			out << gpr.matrix[i * gpr.sizeSqrt + j] << "  ";
+			out << setw(5) << gpr.matrix[i * gpr.sizeSqrt + j] << "  ";
 		}
 		out << "\n";
 	}

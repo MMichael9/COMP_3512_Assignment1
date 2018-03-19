@@ -11,6 +11,7 @@ int main() {
 
 	string fileContents = convertFile(textFile);
 	int size = ((fileContents.length() + 1) / 2);
+	int sizeSqrt = (sqrt(size));
 
 	GooglePageRank a(fileContents, size);
 
@@ -25,6 +26,33 @@ int main() {
 	b.randomWalkCalc();
 
 	cout << b << endl;
+
+	GooglePageRank c(sizeSqrt);
+
+	cout << c << endl;
+
+	for (int i = 0; i < c.getSize(); ++i) {
+		double a = c.get_value(i) * 0.15;
+
+		c.set_value(i, a);
+	}
+	
+	cout << c << endl;
+
+
+	b.addMatrix(c);
+
+	cout << b << endl;
+
+	/*
+	double * d = b.markovProcess();
+
+	for (int i = 0; i < sizeSqrt; ++i) {
+		d[i] = 1.0;
+	}
+
+	b.markovProcess(d);
+	*/
 
 	system("PAUSE");
 
