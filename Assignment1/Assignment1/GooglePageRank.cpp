@@ -192,11 +192,9 @@ double * GooglePageRank::markovProcess() {
 
 void GooglePageRank::markovProcess(double * rank) {
 
-	for (int i = 0; i < this->sizeSqrt; ++i) {
-		cout << rank[i] << " ";
-	}
+	double * tmp = new double[this->sizeSqrt];
 
-	cout << endl;
+	cout << "-------------------------------\n\n" << endl;
 
 	for (int i = 0; i < this->sizeSqrt; ++i) {
 		for (int j = 0; j < this->sizeSqrt; ++j) {
@@ -205,57 +203,72 @@ void GooglePageRank::markovProcess(double * rank) {
 		cout << "\n";
 	}
 
+	cout << "\n" << endl;
 
 
-	double * result = new double[this->sizeSqrt];
+	for (int i = 0; i < this->sizeSqrt; ++i) {
+		cout << rank[i] << " ";
+	}
 
-	int rA = sizeSqrt;
-	int cA = sizeSqrt;
+	int rA = this->sizeSqrt;
+	int cA = this->sizeSqrt;
 
-	int rB = sizeSqrt;
+	int rB = this->sizeSqrt;
 	int cB = 1;
 
 	int cC = 1;
 
 	int count = 0;
 
-	while (count < 4) {
+	while (1) {
 
+		
 		for (int i = 0; i < rA; i++) {
 			for (int j = 0; j < cB; j++) {
 				double sum = 0.0;
 				for (int k = 0; k < rB; k++)
 					sum = sum + this->matrix[i * cA + k] * rank[k * cB + j];
-				result[i * cC + j] = sum;
+				tmp[i * cC + j] = sum;
 			}
 
 		}
-
-		for (int i = 0; i < rA; i++) {
-			for (int j = 0; j < cB; j++) {
-				double sum = 0.0;
-				for (int k = 0; k < rB; k++)
-					sum = sum + this->matrix[i * cA + k] * result[k * cB + j];
-				result[i * cC + j] = sum;
-			}
-
-		}
-
-
-
-		cout << endl << endl;
+		
+	
+		cout << "\n\n-------------------------------\n\nrank = ";
 
 		for (int i = 0; i < this->sizeSqrt; ++i) {
-			cout << result[i] << " ";
+			cout << rank[i] << " ";
 		}
 
 		cout << endl;
 
+		int countSame = 0;
+
+		for (int i = 0; i < this->sizeSqrt; ++i) {
+
+			if (rank[i] == tmp[i]) {
+				countSame++;
+			}
+
+		}
+
+		if (countSame == this->sizeSqrt) {
+			cout << count << ": TRUUUUUUU" << endl;
+			break;
+		}
+
+		else {
+
+			for (int i = 0; i < this->sizeSqrt; ++i) {
+				rank[i] = tmp[i];
+			}
+
+		}
+
+
 		count++;
+
 	}
-
-
-	cout << endl;
 	
 }
 

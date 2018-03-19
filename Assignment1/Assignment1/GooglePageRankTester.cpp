@@ -44,7 +44,7 @@ int main() {
 
 	cout << b << endl;
 
-	/*
+	
 	double * d = b.markovProcess();
 
 	for (int i = 0; i < sizeSqrt; ++i) {
@@ -52,7 +52,7 @@ int main() {
 	}
 
 	b.markovProcess(d);
-	*/
+	
 
 	system("PAUSE");
 
