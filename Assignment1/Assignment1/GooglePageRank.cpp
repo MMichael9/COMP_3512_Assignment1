@@ -246,7 +246,7 @@ void GooglePageRank::markovProcess(double * rank) {
 
 		for (int i = 0; i < this->sizeSqrt; ++i) {
 
-			if (rank[i] == tmp[i]) {
+			if ((rank[i] - tmp[i]) < 0.0000001) {
 				countSame++;
 			}
 

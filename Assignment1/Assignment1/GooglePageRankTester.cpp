@@ -52,6 +52,24 @@ int main() {
 	}
 
 	b.markovProcess(d);
+
+	cout << "------------------\n\n\n";
+
+	double sum = 0;
+
+	for (int i = 0; i < sizeSqrt; ++i) {
+		sum += d[i];
+	}
+
+	for (int i = 0; i < sizeSqrt; ++i) {
+		d[i] = d[i] / sum;
+	}
+
+	char start = 65;
+
+	for (int i = 0; i < sizeSqrt; ++i) {
+		cout << start++ << ":" << d[i] << "\n";
+	}
 	
 
 	system("PAUSE");
