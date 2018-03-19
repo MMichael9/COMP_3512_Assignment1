@@ -22,6 +22,10 @@ int main() {
 
 	cout << b << endl;
 
+	b.randomWalkCalc();
+
+	cout << b << endl;
+
 	system("PAUSE");
 
 	return 0;

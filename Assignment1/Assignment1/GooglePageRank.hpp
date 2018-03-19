@@ -14,10 +14,12 @@ class GooglePageRank {
 	int size;
 	int sizeSqrt;
 	double * matrix;
+	double p = { 0.85 };
 
 public:
 
 	GooglePageRank(std::string file, int s);
+	GooglePageRank(int s);
 	GooglePageRank(const GooglePageRank& gpr);
 
 	~GooglePageRank() { delete[] matrix;  std::cout << std::endl << "Destoryed" << std::endl; }
@@ -28,6 +30,8 @@ public:
 	void changeCol(GooglePageRank gpr);
 
 	void testFunction(GooglePageRank& gpr, int colNum, double colSum);
+
+	void randomWalkCalc();
 
 	friend std::ostream& operator<<(std::ostream& out, const GooglePageRank& gpr);
 

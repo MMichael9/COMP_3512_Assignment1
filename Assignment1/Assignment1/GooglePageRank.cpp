@@ -57,6 +57,7 @@ GooglePageRank::GooglePageRank(std::string file, int s) {
 
 }
 
+
 GooglePageRank::GooglePageRank(const GooglePageRank& gpr) {
 
 	matrix = new (nothrow) double[gpr.size]();
@@ -132,6 +133,13 @@ void GooglePageRank::testFunction(GooglePageRank& gpr, int colNum, double colSum
 		if (val == 1) {
 			gpr.matrix[colNum + (sizeSqrt * j)] = (gpr.matrix[colNum + (sizeSqrt * j)] / colSum);
 		}
+	}
+}
+
+void GooglePageRank::randomWalkCalc() {
+
+	for (int i = 0; i < size; ++i) {
+		this->matrix[i] = (this->matrix[i] * this->p);
 	}
 
 }
