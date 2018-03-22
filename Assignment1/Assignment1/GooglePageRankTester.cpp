@@ -7,77 +7,65 @@ string convertFile(string s);
 
 int main() {
 
+	//Read in text file
 	string textFile = readFile();
 
+	//Convert given text file to String
 	string fileContents = convertFile(textFile);
-	int size = ((fileContents.length() + 1) / 2);
-	int sizeSqrt = (sqrt(size));
 
-	GooglePageRank a(fileContents, size);
+	//Compute the length of the array stored in text file
+	int sizeofFileArray = ((fileContents.length() + 1) / 2);
+	int sizeSqrt = (sqrt(sizeofFileArray));
 
-	cout << a << endl;
+	//Initialize object G - matrix will be instantiated with values from text file
+	GooglePageRank G(fileContents, sizeofFileArray);
 
-	GooglePageRank b(a);
+	//Create a new object S using the copy constructor 
+	GooglePageRank S(G);
 
-	b.changeCol(a);
+	//Invoke changeCol on S using the column sums of G to convert the objects
+	//matrix into a left stochastic matrix
+	S.changeCol(G);
 
-	cout << b << endl;
+	//Calculate the random walk factor on object S and its matrix values
+	S.randomWalkCalc();
 
-	b.randomWalkCalc();
-
-	cout << b << endl;
-
-	GooglePageRank c(sizeSqrt);
-
-	cout << c << endl;
-
-	for (int i = 0; i < c.getSize(); ++i) {
-		double a = c.get_value(i) * 0.15;
-
-		c.set_value(i, a);
-	}
-	
-	cout << c << endl;
+	//Initialize Q which will contain the same size matrix of S but values
+	//initalized to 1/n (n being the dimension of matrix S and G)
+	GooglePageRank Q(sizeSqrt);
 
 
-	b.addMatrix(c);
+	//Perform calcualtion on Q's matrix 
+	for (int i = 0; i < Q.getSize(); ++i) {
+		double a = Q.get_value(i) * 0.15;
 
-	cout << b << endl;
-
-	
-	double * d = b.markovProcess();
-
-	for (int i = 0; i < sizeSqrt; ++i) {
-		d[i] = 1.0;
+		Q.set_value(i, a);
 	}
 
-	b.markovProcess(d);
 
-	cout << "------------------\n\n\n";
+	//Add Q and S matricies and store result in S
+	S.addMatrix(Q);
 
-	double sum = 0;
+	//Initialize rank matrix for calcuating chance of user visiting a page
+	double * rank = S.initializeRank();
 
-	for (int i = 0; i < sizeSqrt; ++i) {
-		sum += d[i];
-	}
+	//Perform Markov Process on S with dynamic double array rank
+	S.markovProcess(rank);
 
-	for (int i = 0; i < sizeSqrt; ++i) {
-		d[i] = d[i] / sum;
-	}
+	//Calcualte percentage chance a page gets visited
+	S.calcRank(rank);
 
-	char start = 65;
+	//Send results to a .txt file
+	S.streamResults(rank);
 
-	for (int i = 0; i < sizeSqrt; ++i) {
-		cout << start++ << ":" << d[i] << "\n";
-	}
-	
 
-	system("PAUSE");
+	//system("PAUSE");
 
 	return 0;
 }
 
-
+//Read in name of text file that contains GooglePageRank web
+//
 string readFile() {
 
 	cout << "Enter Text File with connectivity matrix" << endl;

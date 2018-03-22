@@ -38,8 +38,13 @@ public:
 
 	void addMatrix(GooglePageRank gpr);
 
-	double * markovProcess();
+	double * initializeRank();
 	void markovProcess(double * rank);
+	bool compareRank(double * rank, double * tmp);
+
+	void calcRank(double * rank);
+
+	void streamResults(double * rank);
 
 	friend std::ostream& operator<<(std::ostream& out, const GooglePageRank& gpr);
 
